@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=640, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="controller">
+        <div>
+          <label
+            ><input
+              type="checkbox"
+              value="false"
+              v-model="isFoil"
+            />ホイル加工表現あり</label
+          >
+        </div>
+        <div>
+          <label>
+            <input type="checkbox" value="false" v-model="isAnimation" /><span
+              >アニメーションあり</span
+            ></label
+          >
+        </div>
+      </div>
+      <div class="cardContainer">
+        <div
+          class="card"
+          style="--width: 480px; --height: 640px"
+          :class="{isAnimationStop:!isAnimation,original:!isFoil}"
+        >
+          <img
+            src="/blue_bird.jpg"
+            alt=""
+            width="480"
+            height="640"
+            class="image"
+          />
+          <div class="overlayDot"></div>
+          <div class="overlayColor"></div>
+          <div class="overlayLight"></div>
+          <div class="overlayLight2"></div>
+          <div class="overlayLight3"></div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

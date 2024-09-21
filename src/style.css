@@ -1,0 +1,360 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  font-synthesis: none;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+body {
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+#app {
+  margin: 0 auto;
+}
+
+.cardContainer {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.card {
+  position: relative;
+  width: var(--width);
+  height: var(--height);
+  overflow: hidden;
+  rotate: 0 30deg 30deg;
+  animation: card 2s infinite var(--ease-in-out-cubic) alternate-reverse;
+
+  --degree: 35deg;
+  --y-repeting-base: cos(var(--degree)) * var(--height) * 0.25;
+  --size-x: calc(var(--width) * 0.75); /* 450px */
+  --size-y: calc(var(--height) * 7.5); /* 6000px */
+  --size: var(--size-x) var(--size-y);
+  --position: 0 calc(var(--size-y) * 0.5),
+    calc(var(--size-x) * 0.8) calc(var(--size-y) * 0.6),
+    calc(var(--size-x) * 0.2) calc(var(--size-y) * 0.6);
+  --move: calc(var(--width) * 0.25);
+  --position-after: var(--move) calc(var(--size-y) * 0.5 + var(--move) * 2),
+    calc(var(--size-x) * 0.8 + var(--move))
+      calc(var(--size-y) * 0.6 + var(--move) * 2),
+    calc(var(--size-x) * 0.2 + var(--move))
+      calc(var(--size-y) * 0.6 + var(--move) * 2);
+  --dot-size: calc(var(--width) * 0.005);
+
+  &.isAnimationStop {
+    animation: none;
+
+    > * {
+      animation: none;
+    }
+  }
+
+  &.original {
+    .overlayColor,
+    .overlayDot,
+    .overlayLight,
+    .overlayLight2,
+    .overlayLight3 {
+      opacity: 0 !important;
+    }
+  }
+}
+
+.image {
+  display: block;
+  width: var(--width);
+  height: var(--height);
+}
+
+.overlayColor {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: repeating-linear-gradient(
+    var(--degree),
+    hsl(0deg 100% 50%) 0,
+    hsl(45deg 100% 50%) calc(var(--y-repeting-base) * 1 / 8),
+    hsl(90deg 100% 50%) calc(var(--y-repeting-base) * 2 / 8),
+    hsl(135deg 100% 50%) calc(var(--y-repeting-base) * 3 / 8),
+    hsl(180deg 100% 50%) calc(var(--y-repeting-base) * 4 / 8),
+    hsl(225deg 100% 50%) calc(var(--y-repeting-base) * 5 / 8),
+    hsl(270deg 100% 50%) calc(var(--y-repeting-base) * 6 / 8),
+    hsl(315deg 100% 50%) calc(var(--y-repeting-base) * 7 / 8),
+    hsl(360deg 100% 50%) calc(var(--y-repeting-base) * 8 / 8)
+  );
+  mix-blend-mode: plus-lighter;
+  opacity: 0.7;
+  mask-image: radial-gradient(
+      farthest-side at center,
+      rgb(0 0 0 /100%) 0,
+      rgb(0 0 0 /5%) calc(var(--y-repeting-base) * 0.08),
+      rgb(0 0 0 /0%) calc(var(--y-repeting-base) * 0.12)
+    ),
+    radial-gradient(
+      farthest-side at center,
+      rgb(0 0 0 /100%) 0,
+      rgb(0 0 0 /5%) calc(var(--y-repeting-base) * 0.05),
+      rgb(0 0 0 /0%) calc(var(--y-repeting-base) * 0.09)
+    ),
+    radial-gradient(
+      farthest-side at center,
+      rgb(0 0 0 /100%) 0,
+      rgb(0 0 0 /5%) calc(var(--y-repeting-base) * 0.11),
+      rgb(0 0 0 /0%) calc(var(--y-repeting-base) * 0.15)
+    );
+  mask-position: var(--position);
+  mask-size: var(--size);
+  rotate: calc(90deg - var(--degree));
+  animation:
+    positionColor 2s infinite var(--ease-in-out-cubic) alternate-reverse,
+    positionMask 2s infinite var(--ease-in-out-cubic) alternate-reverse,
+    opacityColor 2s infinite var(--ease-in-out-cubic) alternate-reverse;
+}
+
+.overlayDot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    var(--degree),
+    hsl(0deg 100% 50%) 0,
+    hsl(45deg 100% 50%) calc(var(--y-repeting-base) * 1 / 8),
+    hsl(90deg 100% 50%) calc(var(--y-repeting-base) * 2 / 8),
+    hsl(135deg 100% 50%) calc(var(--y-repeting-base) * 3 / 8),
+    hsl(180deg 100% 50%) calc(var(--y-repeting-base) * 4 / 8),
+    hsl(225deg 100% 50%) calc(var(--y-repeting-base) * 5 / 8),
+    hsl(270deg 100% 50%) calc(var(--y-repeting-base) * 6 / 8),
+    hsl(315deg 100% 50%) calc(var(--y-repeting-base) * 7 / 8),
+    hsl(360deg 100% 50%) calc(var(--y-repeting-base) * 8 / 8)
+  );
+  background-repeat: repeat;
+  mix-blend-mode: plus-lighter;
+  opacity: 0.5;
+  mask-image: radial-gradient(
+      circle at center,
+      rgb(0 0 0 / 100%) 0,
+      rgb(0 0 0 / 70%) var(--dot-size),
+      transparent var(--dot-size)
+    ),
+    radial-gradient(
+      circle at center,
+      rgb(0 0 0 / 100%) 0,
+      rgb(0 0 0 / 80%) calc(var(--dot-size) * 0.8),
+      transparent var(--dot-size)
+    ),
+    radial-gradient(
+      circle at center,
+      rgb(0 0 0 / 100%) 0,
+      rgb(0 0 0 / 60%) calc(var(--dot-size) * 1.5),
+      transparent var(--dot-size)
+    ),
+    radial-gradient(
+      circle at center,
+      rgb(0 0 0 / 80%) 0,
+      rgb(0 0 0 / 40%) calc(var(--dot-size) * 0.5),
+      transparent var(--dot-size)
+    ),
+    radial-gradient(
+      circle at center,
+      rgb(0 0 0 / 100%) 0,
+      rgb(0 0 0 / 60%) calc(var(--dot-size) * 2.1),
+      transparent var(--dot-size)
+    ),
+    radial-gradient(
+      circle at center,
+      rgb(0 0 0 / 100%) 0,
+      rgb(0 0 0 / 70%) calc(var(--dot-size) * 0.8),
+      transparent var(--dot-size)
+    );
+  mask-position:
+    0 0,
+    calc(var(--dot-size) * 135) calc(var(--dot-size) * 26),
+    calc(var(--dot-size) * -2) calc(var(--dot-size) * 9),
+    calc(var(--dot-size) * -7) calc(var(--dot-size) * -5),
+    calc(var(--dot-size) * 17) calc(var(--dot-size) * 25),
+    calc(var(--dot-size) * 10) calc(var(--dot-size) * 25);
+  mask-size:
+    calc(var(--dot-size) * 31) calc(var(--dot-size) * 37),
+    calc(var(--dot-size) * 37) calc(var(--dot-size) * 47),
+    calc(var(--dot-size) * 45) calc(var(--dot-size) * 57),
+    calc(var(--dot-size) * 23) calc(var(--dot-size) * 31),
+    calc(var(--dot-size) * 55) calc(var(--dot-size) * 44),
+    calc(var(--dot-size) * 22) calc(var(--dot-size) * 35);
+  animation:
+    positionColor 2s infinite var(--ease-in-out-cubic) alternate-reverse,
+    opacityColor2 2s infinite var(--ease-in-out-cubic) alternate-reverse;
+}
+
+.overlayLight {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: radial-gradient(
+      farthest-side at center,
+      rgb(255 255 255 /100%) 0,
+      rgb(255 255 255 /5%) calc(var(--y-repeting-base) * 0.08),
+      rgb(255 255 255 /0%) calc(var(--y-repeting-base) * 0.12)
+    ),
+    radial-gradient(
+      farthest-side at center,
+      rgb(255 255 255 /100%) 0,
+      rgb(255 255 255 /5%) calc(var(--y-repeting-base) * 0.05),
+      rgb(255 255 255 /0%) calc(var(--y-repeting-base) * 0.09)
+    ),
+    radial-gradient(
+      farthest-side at center,
+      rgb(255 255 255 /100%) 0,
+      rgb(255 255 255 /5%) calc(var(--y-repeting-base) * 0.11),
+      rgb(255 255 255 /0%) calc(var(--y-repeting-base) * 0.15)
+    );
+  background-position: var(--position);
+  background-size: var(--size);
+  mix-blend-mode: plus-lighter;
+  opacity: 0.3;
+  rotate: calc(90deg - var(--degree));
+  animation:
+    positionColor 2s infinite var(--ease-in-out-cubic) alternate-reverse,
+    positionMask 2s infinite var(--ease-in-out-cubic) alternate-reverse,
+    opacityLight 2s infinite var(--ease-in-out-cubic) alternate-reverse;
+}
+
+.overlayLight2 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: radial-gradient(
+    farthest-side at center,
+    rgb(255 255 255 /100%) 0,
+    rgb(255 255 255 /5%) 60%,
+    rgb(255 255 255 /0%) 80%
+  );
+  background-position: 0;
+  background-size: calc(var(--width) * 2) calc(var(--height) * 2);
+  mix-blend-mode: plus-lighter;
+  opacity: 0.5;
+  rotate: calc(90deg - var(--degree));
+  animation: position2 2s infinite var(--ease-in-out-cubic) alternate-reverse;
+}
+
+.overlayLight3 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: radial-gradient(
+    farthest-side at center,
+    rgb(0 0 0 /100%) 0,
+    rgb(0 0 0/5%) 60%,
+    rgb(0 0 0 /0%) 80%
+  );
+  background-position: 0;
+  background-size: calc(var(--width) * 2) calc(var(--height) * 2);
+  mix-blend-mode: overlay;
+  opacity: 0.7;
+  rotate: calc(90deg - var(--degree));
+  animation: position2 2s infinite var(--ease-in-out-cubic) alternate-reverse;
+}
+
+@keyframes positionColor {
+  0% {
+    background-position: var(--position);
+  }
+
+  100% {
+    background-position: var(--position-after);
+  }
+}
+
+@keyframes positionMask {
+  0% {
+    mask-position: var(--position);
+  }
+
+  100% {
+    mask-position: var(--position-after);
+  }
+}
+
+@keyframes opacityColor {
+  0% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes opacityColor2 {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0.05;
+  }
+}
+
+@keyframes opacityLight {
+  0% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 0.05;
+  }
+}
+
+@keyframes position2 {
+  0% {
+    background-position: calc(var(--width) * 0) calc(var(--height) * 0);
+  }
+
+  100% {
+    background-position: calc(var(--width) * 0 + var(--move) * 1.5)
+      calc(var(--height) * 0 + var(--move) * -2);
+  }
+}
+
+@keyframes card {
+  0% {
+    rotate: 1 1 0 20deg;
+  }
+
+  100% {
+    rotate: 1 1 0 -20deg;
+  }
+}
+
+.controller {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+
+  label {
+    display: block;
+  }
+}
