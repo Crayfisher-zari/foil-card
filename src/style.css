@@ -33,6 +33,7 @@ body {
   width: var(--width);
   height: var(--height);
   overflow: hidden;
+  isolation: isolate;
   rotate: 0 30deg 30deg;
   animation: card 2s infinite var(--ease-in-out-cubic) alternate-reverse;
 
